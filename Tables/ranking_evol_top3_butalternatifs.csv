@@ -1,0 +1,13 @@
+"","insurer","coverage","period.x","yearmonth.x","rank.x","proportion.x","period.y","yearmonth.y","rank.y","proportion.y","var_prop"
+"1","AXA","Formule Optimum","Y17W46","Y17M11",2,6,"Y18W11","Y18M03",2,5,-0.2
+"2","AXA","Minimum","Y17W46","Y17M11",2,19,"Y18W11","Y18M03",2,16,-0.2
+"3","Cardif","Formule Optimum","Y17W46","Y17M11",2,18,"Y18W11","Y18M03",2,14,-0.2
+"4","Cardif","Minimum","Y17W46","Y17M11",3,13,"Y18W11","Y18M03",3,9,-0.3
+"5","Groupe AVIVA","Formule Optimum","Y17W46","Y17M11",3,8,"Y18W11","Y18M03",3,10,0.2
+"6","Groupe AVIVA","Minimum","Y17W46","Y17M11",1,11,"Y18W11","Y18M03",3,13,0.2
+"7","Groupe AXA","Formule Optimum","Y17W46","Y17M11",1,34,"Y18W11","Y18M03",1,29,-0.1
+"8","Groupe AXA","Minimum","Y17W46","Y17M11",1,33,"Y18W11","Y18M03",1,28,-0.2
+"9","MAAF Assurances","Formule Optimum","Y17W46","Y17M11",3,13,"Y18W11","Y18M03",2,13,0
+"10","MAAF Assurances","Minimum","Y17W46","Y17M11",2,11,"Y18W11","Y18M03",3,11,0
+"11","SIMPL'ASSUR","Formule Optimum","Y17W46","Y17M11",3,20,"Y18W11","Y18M03",1,29,0.4
+"12","SIMPL'ASSUR","Minimum","Y17W46","Y17M11",1,13,"Y18W11","Y18M03",1,24,0.8
