@@ -22,15 +22,13 @@ source("./Scripts/updateTable_emprunteur.R")
 
 
 
-if(Source == "MONTHLY"){ 
-  source("./Scripts/11Cumul_Evolution_emprunteur.R")
-}else{
-  source("./monthly_report_all/12.Cumul_Evolution_weekly.R")
-}
+
+source("./Scripts/11Cumul_Evolution_emprunteur.R")
 
 
 
 source("./Scripts/10MR_global_ranking_Generic_emprunteur.R")
+
 source("./Scripts/Price_Gap-Market_Intensity.R")
 
 

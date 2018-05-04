@@ -1,11 +1,8 @@
 #### Cumulative evolution #### 
 
 
-  
-frdata_cumul=crawling_all
-summarybefore <- NULL
 
-res=data.frame(frdata_cumul$period,frdata_cumul$price,frdata_cumul$insurer,frdata_cumul$profilID,frdata_cumul$coverage)
+res=data.frame(crawling_all$period,crawling_all$price,crawling_all$insurer,crawling_all$profilID,crawling_all$coverage)
 
 
 ## We rename the columns
@@ -47,7 +44,7 @@ summaryTab <- data.frame("insurer"=NaN,"coverage"=NaN,"period"=NaN,
                          "Display_var" = NaN,
                          "NbProfiles"=NaN)
 
-
+summarybefore <- NULL
 
 
 ## Calcul with the function onePeriodStats for every period.
@@ -102,9 +99,28 @@ summaryTab=unique(summaryTab)
 
 ### Cumulated evolution ###
 
+
+
+## First we do the same work with the res DB.
+
+res=data.frame(crawling_all$period,crawling_all$price,crawling_all$insurer,crawling_all$profilID,crawling_all$coverage)
+
+names(res)=c("period","price","insurer","profilID","coverage")
+
+
+res=na.omit(res)
+res$period=as.character(res$period)
+res=res[res$coverage%in%covfr,]
+res=res[order(res$period),]
+
+
+periods <- unique(as.character(res$period))
+players <- levels(as.factor(res$insurer))
+
+
+
+
 ## Calculate log variation between two periods in using  "onePeriodlog" function.
-
-
 
 summaryCumulTab<- data.frame("profilID"=NaN,"insurer"=NaN,"coverage"=NaN,"period"=NaN,"LNEvolByProfile"=NaN)
 
@@ -169,9 +185,11 @@ summaryCumulTab$period <- as.factor(summaryCumulTab$period)
 
 ## Remove years before 2015 
 
-for (y in c("Y15","Y16","Y17", "Y18")) {
-  summaryCumulTab1=summaryCumulTab[grepl(y,summaryCumulTab$period),]
-}
+# for (y in c("Y15","Y16","Y17", "Y18")) {
+#   summaryCumulTab1=summaryCumulTab[grepl(y,summaryCumulTab$period),]
+# }
+
+summaryCumulTab1=summaryCumulTab
 
 summaryCumulTab1$period <- factor(summaryCumulTab1$period)
 
