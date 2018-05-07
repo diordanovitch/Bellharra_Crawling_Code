@@ -17,9 +17,9 @@ MUTUELLEPlayers <- c("MAAF Assurances")
 
 BANCASSUREURPlayers <- c("Cardif") 
 
-CLASSIQUEPlayers <- c("Groupe AVIVA", "AXA", "SIMPL'ASSUR","Groupe AXA")
+CLASSIQUEPlayers <- c("Groupe AVIVA", "AXA","Groupe AXA")
 
-ALTERNATIFSPlayers <- c("AFI-ESCA","ALPTIS","AsCourtage","CSF Assurances","HODEVA","Zen'up")
+ALTERNATIFSPlayers <- c("AFI-ESCA","ALPTIS","AsCourtage","CSF Assurances","HODEVA","Zen'up", "SIMPL'ASSUR")
 
 All<-c("MAAF Assurances","Cardif","Groupe AVIVA", "AXA", "SIMPL'ASSUR","Groupe AXA","AFI-ESCA","ALPTIS","AsCourtage","CSF Assurances","HODEVA","Zen'up")
 
