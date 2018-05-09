@@ -1,17 +1,17 @@
-insurer;coverage;type;Avg.Loan.Amount;Avg.Loan.Duration;Avg.Loan.Rate;Prop.Loan.Type;Prop.Loan.Statut;Prop.Male;Prop.Marital.Statut;Avg.Age;Travel.Prop;Risk.Prop;Smoke.Prop;Prop,CDI
-MAAF Assurances;Minimum;MUTUELLE;185 825 €;19,2;1,73;0,96;0,82;0,81;0,46;37;0,44;0,06;0,13;0,87
+insurer;coverage;type;Avg.Loan.Amount;Avg.Loan.Duration;Avg.Loan.Rate;Prop.Loan.Type;Prop.Loan.Statut;Prop.Male;Prop.Marital.Statut;Avg.Age;Travel.Prop;Risk.Prop;Smoke.Prop;Prop.CDI
+SIMPL'ASSUR;Minimum;ALTERNATIFS;201 901 €;19,4;1,73;0,95;0,81;0,79;0,42;37;0,48;0,06;0,15;0,83
 Zen'up;Minimum;ALTERNATIFS;196 129 €;19,3;1,73;0,97;0,84;0,81;0,49;36;0,44;0,07;0,15;0,88
 Groupe AXA;Minimum;CLASSIQUE;190 930 €;19,3;1,74;0,96;0,82;0,79;0,42;36;0,43;0,05;0,14;0,87
-Cardif;Minimum;BANCASSUREUR;193 401 €;19,0;1,73;0,97;0,83;0,82;0,4;36;0,43;0;0;0,84
-SIMPL'ASSUR;Minimum;ALTERNATIFS;201 901 €;19,4;1,73;0,95;0,81;0,79;0,42;37;0,48;0,06;0,15;0,83
-AXA;Minimum;CLASSIQUE;184 027 €;19,5;1,73;0,95;0,82;0,79;0,45;37;0,48;0,06;0,13;0,85
 Groupe AVIVA;Minimum;CLASSIQUE;217 553 €;19,1;1,75;0,94;0,79;0,75;0,29;33;0,52;0,04;0,14;0,78
+AXA;Minimum;CLASSIQUE;184 027 €;19,5;1,73;0,95;0,82;0,79;0,45;37;0,48;0,06;0,13;0,85
+MAAF Assurances;Minimum;MUTUELLE;185 825 €;19,2;1,73;0,96;0,82;0,81;0,46;37;0,44;0,06;0,13;0,87
+Cardif;Minimum;BANCASSUREUR;193 401 €;19;1,73;0,97;0,83;0,82;0,4;36;0,43;0;0;0,84
 ;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;
-AXA;Formule Optimum;CLASSIQUE;177 620 €;18,8;1,72;0,95;0,8;0,81;0,52;34;0,43;0,05;0,12;0,9
-MAAF Assurances;Formule Optimum;MUTUELLE;182 560 €;18,9;1,72;0,96;0,8;0,85;0,48;37;0,45;0,04;0,15;0,85
-Zen'up;Formule Optimum;ALTERNATIFS;193 231 €;19,1;1,73;0,98;0,83;0,86;0,5;37;0,44;0,06;0,17;0,85
-Groupe AXA;Formule Optimum;CLASSIQUE;189 115 €;19,1;1,74;0,96;0,78;0,82;0,44;37;0,41;0,04;0,16;0,86
-Cardif;Formule Optimum;BANCASSUREUR;200 199 €;18,7;1,72;0,96;0,82;0,84;0,45;36;0,43;0;0;0,9
-Groupe AVIVA;Formule Optimum;CLASSIQUE;224 142 €;18,5;1,75;1;0,76;0,77;0,28;33;0,53;0,02;0,18;0,88
-SIMPL'ASSUR;Formule Optimum;ALTERNATIFS;200 021 €;19,1;1,72;0,95;0,79;0,82;0,44;37;0,48;0,05;0,17;0,82
+;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;

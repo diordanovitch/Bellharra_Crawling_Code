@@ -1,6 +1,6 @@
 library("dplyr")
 
-## We chose the companies we want to compare
+## We chose the companies we want to compare.
 
 BENCHMARK <-c("MAAF Assurances","Cardif","Groupe AVIVA", "AXA", "SIMPL'ASSUR","Groupe AXA","Zen'up")
 
@@ -136,4 +136,39 @@ for (job in jobs_status) {
 
 Table_Benchmark_Global <- Table_Benchmark_Global %>% group_by(insurer, coverage) %>% mutate( Prop.Loan.Type = sum(firstloan_type == 'Amortissable') / length(firstloan_type) )
 
-assi
+
+
+## We create a comparative table, to compare price from one period to another without the filtering bias (uniquely the lines
+## which are both in 2 periods).
+
+
+Old_Table <- crawling_all[crawling_all$period %in% "Y17W46",]
+
+
+Comparative_Table = merge(New_Table, Old_Table, by=c('profilID', 'insurer', 'coverage'), all.x = TRUE, all.y = TRUE)
+
+Comparative_Table = na.omit(Comparative_Table)
+
+
+Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutate(Avg_Price_1 = mean(price.y) )
+Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutate(Avg_Price_2 = mean(price.x) )
+
+
+Comparative_Table$Var_Price = (Comparative_Table$price.x / Comparative_Table$price.y) - 1
+
+
+
+Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutate(Avg_Var_Price = mean((price.x / price.y) - 1) )
+
+Comparative_Table <- Comparative_Table[,c(2,3,15,16,17)]
+
+Comparative_Table <- unique(Comparative_Table)
+
+
+
+
+Comparative_Table <- Comparative_Table[Comparative_Table$insurer %in% 'Groupe AXA',]
+
+Comparative_Table <- Comparative_Table[Comparative_Table$insurer %in% BENCHMARK,]
+
+write.csv(Comparative_Table, "./Tables/Comparative_Table.csv")
