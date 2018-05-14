@@ -62,7 +62,7 @@ save(ranking_by_player_all,file= ("./Tables/ranking_by_player_all.RData"))
 
 ### Ranking comparaison over periods ###
 
-#crawling_all_butalternatifs <- crawling_all[!crawling_all$insurer %in% ALTERNATIFSPlayers,]
+crawling_all_butalternatifs <- crawling_all[!crawling_all$insurer %in% ALTERNATIFSPlayers,]
 
 crawling_all_classic <- crawling_all_butalternatifs[!crawling_all_butalternatifs$insurer %in% "SIMPL'ASSUR",]
 

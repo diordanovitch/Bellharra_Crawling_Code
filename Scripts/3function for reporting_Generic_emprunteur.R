@@ -96,7 +96,7 @@ genrankovermonths = function (prankd,agdentity,agdentitysn,coventity, Period = "
         ggtitle(paste(paste(agdentitysn,"Ranking by Month on displayed profiles"),sep="\n\n"))+
         scale_fill_manual(values = rankcols) + labs(fill="") #+  wtl
     )
-    ggsave(paste(PathNamerank,file=paste("CI-RankingByMonth-",agdentitysn,"-",coventity[k],".png",sep=""),sep="/"),width=20,height=10,dpi=100)
+    ggsave(paste("./Tables/",file=paste("CI-RankingByMonth-",agdentitysn,"-",coventity[k],".png",sep=""),sep="/"),width=20,height=10,dpi=100)
     
   }
   return(all)

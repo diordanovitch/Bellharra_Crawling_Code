@@ -5,7 +5,7 @@ library("dplyr")
 BENCHMARK <-c("MAAF Assurances","Cardif","Groupe AVIVA", "AXA", "SIMPL'ASSUR","Groupe AXA","Zen'up")
 
 
-## We create the table for the benchmark, from New_Table_Complete created for PCA.
+## We create the table for the benchmark, from New_Table_Complete_PCA created for PCA with all infos from the 'profils' file.
 
 Table_Benchmark <- New_Table_complete_PCA[New_Table_complete_PCA$insurer %in% BENCHMARK,]
 
@@ -166,9 +166,44 @@ Comparative_Table <- unique(Comparative_Table)
 
 
 
-
-Comparative_Table <- Comparative_Table[Comparative_Table$insurer %in% 'Groupe AXA',]
-
 Comparative_Table <- Comparative_Table[Comparative_Table$insurer %in% BENCHMARK,]
 
 write.csv(Comparative_Table, "./Tables/Comparative_Table.csv")
+
+
+
+
+
+
+
+
+## Plot des fréquences pour chaque segment d'âge.
+
+
+# for (age in age_segments) {
+#   indices <- ( dtrankd$primary_applicant_age >= ( as.numeric ( substring(age, 1, 2) ) ) & dtrankd$primary_applicant_age < ( as.numeric ( str_sub(age, -2) ) ) )
+#   dtrankd$age_segment[which(indices)] <- age
+# }
+
+
+
+prankd = New_Table_complete_PCA
+
+table <- NULL
+table_age_all <-  NULL
+coventity = 'Minimum'
+
+for (insurer in BENCHMARK) {
+  for (k in 1:length(coventity)) {
+    table <- as.data.frame( table( cut( (prankd$primary_applicant_age[grepl(insurer,prankd$insurer) & prankd$coverage==coventity[k] ]) 
+                                       ,breaks=c(18,25,35,45,55,100))) / length(prankd$primary_applicant_age[grepl(insurer,prankd$insurer) &  prankd$coverage==coventity[k]]) )
+    table$coverage = coventity[k]
+    table$insurer = insurer
+    table_age_all = rbind(table_age_all, table)
+  }
+}
+
+
+write.csv(table_age_all, "./Tables/Table_Age_All.csv")
+
+max(prankd$primary_applicant_age[grepl('Groupe AVIVA', prankd$insurer)])
