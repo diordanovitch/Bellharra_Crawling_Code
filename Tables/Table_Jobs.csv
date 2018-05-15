@@ -1,0 +1,15 @@
+"","insurer","coverage","Prop.Salarié cadre","Prop.Agriculteur","Prop.Profession Libérale","Prop.Salarié ","Prop.Fonctionnaire","Prop.Profession médicale","Prop.Enseignant","Prop.Commerçant","Prop.Sans Profession","Prop.Chef d'entreprise","Prop.Recherche d'emploi","Prop.Ouvrier","Prop.Etudiant","Prop.Artisan","Prop.Retraité ","Prop.Profession du spectacle"
+"1","MAAF Assurances","Minimum",0.46,0.01,0.02,0.24,0.07,0.02,0.02,0.01,0.03,0.09,0.01,0.01,0,0.01,0,0
+"2","Zen'up","Minimum",0.47,0.01,0.02,0.23,0.07,0.01,0.03,0.01,0.02,0.1,0.01,0.01,0,0.01,0,0
+"3","Groupe AXA","Minimum",0.46,0.01,0.02,0.27,0.1,0,0.03,0.01,0,0.06,0.01,0.01,0,0.01,0,0
+"4","Cardif","Minimum",0.45,0,0.02,0.26,0.1,0,0.05,0.01,0.04,0.05,0.01,0.01,0,0,0,0
+"5","SIMPL'ASSUR","Minimum",0.41,0.01,0.02,0.26,0.1,0.01,0.04,0.01,0.03,0.08,0.01,0.01,0,0.01,0.01,0.01
+"6","AXA","Minimum",0.43,0.01,0.02,0.24,0.1,0.02,0.03,0.01,0.03,0.08,0.01,0.01,0,0.01,0.01,0.01
+"7","AXA","Formule Optimum",0.56,0.02,0.02,0.24,0.06,0.02,0.02,0,0,0.06,0,0,0,0.01,0,0
+"8","MAAF Assurances","Formule Optimum",0.47,0.02,0.02,0.2,0.06,0.03,0.03,0.01,0.03,0.09,0.02,0.01,0,0.01,0,0.01
+"9","Zen'up","Formule Optimum",0.51,0.02,0.01,0.18,0.05,0.01,0.04,0.01,0.02,0.1,0.01,0.01,0.01,0.01,0,0.01
+"10","Groupe AXA","Formule Optimum",0.48,0.02,0.02,0.26,0.08,0,0.03,0.01,0,0.05,0.03,0.02,0.01,0,0,0.01
+"11","Cardif","Formule Optimum",0.5,0,0.02,0.29,0.08,0,0.03,0.01,0,0.05,0,0.02,0,0,0,0
+"12","Groupe AVIVA","Formule Optimum",0.45,0.01,0,0.35,0.1,0.02,0.04,0.01,0,0,0,0.01,0,0.01,0,0
+"13","SIMPL'ASSUR","Formule Optimum",0.42,0.01,0.01,0.27,0.06,0.01,0.03,0,0.03,0.07,0.02,0.01,0,0,0.01,0.01
+"14","Groupe AVIVA","Minimum",0.36,0,0.01,0.32,0.13,0.01,0.04,0.02,0.04,0.03,0.02,0.01,0,0.01,0,0

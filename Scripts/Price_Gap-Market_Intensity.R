@@ -1,14 +1,6 @@
 ### Assurland - Loan ###
 
 
-## Parameters setting
-# 
-# source("./monthly_report_all/2Libraries_emprunteur.R")
-# source("./monthly_report_all/3function for reporting_Generic_emprunteur.R")
-source("./Scripts/registerfunctions.R")
-source("./Scripts/players_setting.R")
-
-
 
 moiactu=strftime(as.Date(Sys.Date(),format="%Y-%m-%d"),format="Y%yM%m")   
 moiactu_1=pm(moiactu) 
@@ -169,83 +161,3 @@ axe2 <- seq(0,5,1)
 
 g <- ggplot(marketdispersion_predata)+aes(x=x, y=y, color=coverage)+geom_line()+scale_x_continuous(breaks=axe)
 ggplotly(g)
-
-
-
-
-
-
-
-
-# ## ??????????
-# 
-# 
-# ##Subset
-# MyComplete$Seg_smoke[MyComplete$Seg_smoke=='oui'] <- 'Oui'
-# Badprofiles <- deltaminesmars[deltaminesmars$delta >= 0.9900646,]
-# Badfeatures <- subset(MyComplete, (profilID %in% Badprofiles$profilID))
-# Badfeatures <- Badfeatures[!duplicated(Badfeatures$profilID), ]
-# 
-# Badfeatures$insurer <- NULL
-# Badfeatures$coverage <- NULL
-# Badfeatures$date_extraction <- NULL
-# Badfeatures$period <- NULL
-# Badfeatures$yearmonth <- NULL
-# Badfeatures$Seg_location <- NULL
-# Badfeatures$delta <- Badprofiles$delta
-# 
-# 
-# ##the whole dataset 
-# load("./output_MR_all/Assurland_emprunteur/Segment_table_all.RData")
-# MyComplete$Seg_smoke[MyComplete$Seg_smoke=='oui'] <- 'Oui'
-# Badprofiles <- deltaminesmars
-# Badfeatures <- subset(MyComplete, (profilID %in% Badprofiles$profilID))
-# Badfeatures <- Badfeatures[!duplicated(Badfeatures$profilID), ]
-# 
-# Badfeatures$insurer <- NULL
-# Badfeatures$coverage <- NULL
-# Badfeatures$date_extraction <- NULL
-# Badfeatures$period <- NULL
-# Badfeatures$yearmonth <- NULL
-# Badfeatures$Seg_location <- NULL
-# Badfeatures$delta <- Badprofiles$delta
-# 
-# 
-# 
-# library(rpart)
-# 
-# 
-# frmla = delta ~ loan_amount + loan_duration + age  + Seg_CSP  + Seg_smoke 
-# 
-# # Metal: Core Metal (CM); Metal (M); Non-Metal (NM); Core Non-Metal (CNM)
-# 
-# fit = rpart(frmla, method="class", data=Badfeatures)
-# 
-# 
-# printcp(fit) # display the results
-# plotcp(fit) # visualize cross-validation results
-# summary(fit) # detailed summary of splits
-# 
-# # plot tree
-# plot(fit, uniform=TRUE, main="Classification Tree for bad profiles")
-# text(fit, use.n=TRUE, all=TRUE, cex=.8)
-# 
-# # tabulate some of the data
-# table(subset(raw, Koc>=190.5)$Metal)
-# 
-# ## EVTREE (Evoluationary Learning)
-# install.packages('evtree')
-# library(evtree)
-# 
-# 
-# Badfeatures$loan_amount=round(Badfeatures$loan_amount/1000)
-# ev.raw = evtree(frmla, data=Badfeatures, control=evtree.control(minbucket=1L, alpha = 1.1))
-# plot(ev.raw)
-# text(ev.raw, cex=0.5)
-# table(predict(ev.raw), Badfeatures$delta)
-# 1-mean(predict(ev.raw) == Badfeatures$delta)
-# 
-# ##quantile plot
-# plot(quantile(Badfeatures$delta, probs = seq(0, 1, 0.025)), seq(0, 1, 0.025), xlab = 'quantile', ylab = '%')
-
-

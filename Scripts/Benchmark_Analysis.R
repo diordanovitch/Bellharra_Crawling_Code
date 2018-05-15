@@ -105,13 +105,23 @@ Table_Benchmark_Global <- Table_Benchmark_Global %>% group_by(insurer, coverage)
 
 ## We remove useless columns and we round.
 
+Table_Benchmark_Global$primary_applicant_age <- as.numeric(Table_Benchmark_Global$primary_applicant_age)
+
 Table_Benchmark_Global_all <- Table_Benchmark_Global # we keep it in this form.
 
 Table_Benchmark_Global <- Table_Benchmark_Global[, c(1,2,4,30,31,32,33,34,35,36,37,39,40,41, 42)]
 
-for (column in c(4,5,6,7,8,9,10,11,12,13,14,15)) {
-  Table_Benchmark_Global[,column] <- round(Table_Benchmark_Global[,column], 2)
+
+round_df <- function(df, digits) {
+  nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
+  
+  df[,nums] <- round(df[,nums], digits = digits)
+  
+  (df)
 }
+
+Table_Benchmark_Global <- round_df(Table_Benchmark_Global,2)
+
 
 Table_Benchmark_Global <- unique(Table_Benchmark_Global)
 
@@ -120,22 +130,39 @@ write.csv(Table_Benchmark_Global, "./Tables/Table_Benchmark_Global.csv")
 
 
 
+
+
 ## We compute proportion of job status for every insurer.
 
 jobs_status <- unique(Table_Benchmark_Global_all$primary_applicant_occupation_code)
+Table_Benchmark_Global_jobs = Table_Benchmark_Global_all
+names = names(Table_Benchmark_Global_jobs)
 
-i<- 1
 
 for (job in jobs_status) {
   job <- as.character(job)
-  variable <- sprintf('Prop.%s', job)
-  Table_Benchmark_Global_jobs <- Table_Benchmark_Global_all %>% group_by(insurer, coverage) %>% mutate( variable = sum( (primary_applicant_occupation_code == job) / length(primary_applicant_occupation_code) ) )
-  i <- i+1
+  nam <- paste("Prop", job, sep=".")
+  Table_Benchmark_Global_jobs <- Table_Benchmark_Global_jobs %>% group_by(insurer, coverage) %>% mutate(variable = sum( (primary_applicant_occupation_code == job) / length(primary_applicant_occupation_code) ) )
+  names(Table_Benchmark_Global_jobs) <- c(names, nam)
+  names <- names(Table_Benchmark_Global_jobs)
 }
 
 
-Table_Benchmark_Global <- Table_Benchmark_Global %>% group_by(insurer, coverage) %>% mutate( Prop.Loan.Type = sum(firstloan_type == 'Amortissable') / length(firstloan_type) )
 
+
+test <- by(data = Table_Benchmark_Global_jobs$primary_applicant_occupation_code, INDICES = Table_Benchmark_Global_jobs$insurer, FUN =  count)
+
+
+
+Table_Benchmark_Global_jobs <- Table_Benchmark_Global_jobs[, c(1,2,43:58)]
+Table_Benchmark_Global_jobs <- round_df(Table_Benchmark_Global_jobs, 2)
+
+
+Table_Benchmark_Global_jobs <- unique(Table_Benchmark_Global_jobs)
+
+
+
+write.csv(Table_Benchmark_Global_jobs, "./Tables/Table_Jobs.csv")
 
 
 ## We create a comparative table, to compare price from one period to another without the filtering bias (uniquely the lines
@@ -177,6 +204,7 @@ write.csv(Comparative_Table, "./Tables/Comparative_Table.csv")
 
 
 
+
 ## Plot des fréquences pour chaque segment d'âge.
 
 
@@ -187,7 +215,7 @@ write.csv(Comparative_Table, "./Tables/Comparative_Table.csv")
 
 
 
-prankd = New_Table_complete_PCA
+Data = New_Table_complete_PCA
 
 table <- NULL
 table_age_all <-  NULL
@@ -195,8 +223,8 @@ coventity = 'Minimum'
 
 for (insurer in BENCHMARK) {
   for (k in 1:length(coventity)) {
-    table <- as.data.frame( table( cut( (prankd$primary_applicant_age[grepl(insurer,prankd$insurer) & prankd$coverage==coventity[k] ]) 
-                                       ,breaks=c(18,25,35,45,55,100))) / length(prankd$primary_applicant_age[grepl(insurer,prankd$insurer) &  prankd$coverage==coventity[k]]) )
+    table <- as.data.frame( table( cut( (Data$primary_applicant_age[grepl(insurer,Data$insurer) & Data$coverage==coventity[k] ]) 
+                                       ,breaks=c(18,25,35,45,55,100))) / length(Data$primary_applicant_age[grepl(insurer,Data$insurer) &  Data$coverage==coventity[k]]) )
     table$coverage = coventity[k]
     table$insurer = insurer
     table_age_all = rbind(table_age_all, table)
@@ -206,4 +234,34 @@ for (insurer in BENCHMARK) {
 
 write.csv(table_age_all, "./Tables/Table_Age_All.csv")
 
-max(prankd$primary_applicant_age[grepl('Groupe AVIVA', prankd$insurer)])
+max(Data$primary_applicant_age[grepl('Groupe AVIVA', Data$insurer)])
+
+
+
+
+## Plot des fréquences pour le montant de l'emprunt.
+
+
+Data = New_Table_complete_PCA
+Data$firstloan_amount = as.numeric(Data$firstloan_amount)
+
+table <- NULL
+table_amount_all <-  NULL
+coventity = 'Formule Optimum'
+
+for (insurer in BENCHMARK) {
+  for (k in 1:length(coventity)) {
+    table <- as.data.frame( table( cut( (Data$firstloan_amount[grepl(insurer,Data$insurer) & Data$coverage==coventity[k] ]) 
+                                        , breaks=c(1e+04, 1e+05, 2e+05, 3e+05, 4.5e+05, 1e+06))) / length(Data$firstloan_amount[grepl(insurer,Data$insurer) &  Data$coverage==coventity[k]]) )
+    table$coverage = coventity[k]
+    table$insurer = insurer
+    table_amount_all = rbind(table_amount_all, table)
+  }
+}
+
+min(Data$firstloan_amount)
+
+
+write.csv(table_amount_all, "./Tables/Table_Amount_All.csv")
+
+View(Comparative_Table)

@@ -1,9 +1,15 @@
-insurer;coverage;Avg_Price_1;Avg_Price_2;Avg_Var_Price;;
-Groupe AVIVA;Minimum;3835;3608;-4,9%;-5,9%;
-Groupe AXA;Minimum;4124;4101;0%;-0,5%;
-Cardif;Minimum;4548;4185;-6,1%;-8,0%;
-Zen'up;Minimum;4978;4482;-10,9%;-9,9%;
-SIMPL'ASSUR;Minimum;5499;4794;-14,3%;-12,8%;
-AXA;Minimum;4902;4902;0,0%;0,0%;
-MAAF Assurances;Minimum;6430;6226;-5,2%;-3,2%;
-;;;;;;
+"","insurer","coverage","Segment.y","Avg_Price_1","Avg_Price_2"
+"1","AXA","Minimum","Global",4902.04658385093,4902.04658385093
+"2","Cardif","Minimum","Global",4547.59259259259,4185.12962962963
+"3","Groupe AXA","Minimum","Global",4123.58630952381,4101.28273809524
+"4","MAAF Assurances","Minimum","Global",6429.55272727273,6225.74909090909
+"5","SIMPL'ASSUR","Minimum","Global",5499.41833810888,4794.31232091691
+"6","Zen'up","Minimum","Global",4977.6917562724,4482.46594982079
+"7","AXA","Formule Optimum","Global",6486.16,6486.16
+"8","Cardif","Formule Optimum","Global",7222.43243243243,6705.32432432432
+"9","Groupe AXA","Formule Optimum","Global",6788.75213675214,6812.2735042735
+"10","MAAF Assurances","Formule Optimum","Global",10113.7647058824,9812.98039215686
+"11","Zen'up","Formule Optimum","Global",8330.95,7722.7
+"12","Groupe AVIVA","Formule Optimum","Global",6573.87755102041,6151.61224489796
+"13","Groupe AVIVA","Minimum","Global",3835.06763285024,3608.02415458937
+"14","SIMPL'ASSUR","Formule Optimum","Global",8922.41538461538,7485.82307692308

@@ -31,6 +31,10 @@ source("./Scripts/10MR_global_ranking_Generic_emprunteur.R")
 
 source("./Scripts/Price_Gap-Market_Intensity.R")
 
+source("./Scripts/PCA_Crawling.R")
+
+#source("./Scripts/Benchmark_Analysis.R")
+
 
 #####################################################################################################################################
 # WHEN IT'S DONE, YOU HAVE THE RDATA TABLES YOU NEED FOR THE PRODUCTION DATABASE IN "./output_MR_all/Assurland_Loan" :              #
@@ -40,3 +44,5 @@ source("./Scripts/Price_Gap-Market_Intensity.R")
 # - New_Table_Assurland_emp.RData    ->    New_Table variable                                                                       #
 # - summaryTab_emp.RData    ->    SummaryTable variable                                                                             #
 #####################################################################################################################################
+
+# Dimitri IORDANOVITCH
