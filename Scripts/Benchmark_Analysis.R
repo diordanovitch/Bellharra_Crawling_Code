@@ -16,7 +16,16 @@ Table_Benchmark <- New_Table_complete_PCA[New_Table_complete_PCA$insurer %in% BE
 sum(Table_Benchmark$primary_applicant_share == 1) / length(Table_Benchmark$primary_applicant_share)
 
 
+## We compare the number of prestations between 2 periods to see the width of the filtration (just DA).
 
+
+Old_Table <- crawling_all[crawling_all$period %in% "Y17W46",]
+
+Filtration = ( nrow(New_Table[New_Table$insurer %in% "Groupe AXA",]) / nrow(Old_Table[Old_Table$insurer %in% "Groupe AXA",]) ) - 1
+
+Filtration_Opt = ( nrow(New_Table[New_Table$insurer %in% "Groupe AXA" & New_Table$coverage %in% 'Formule Optimum',]) / nrow(Old_Table[Old_Table$insurer %in% "Groupe AXA" & Old_Table$coverage %in% 'Formule Optimum',]) ) - 1
+
+Filtration_Min = ( nrow(New_Table[New_Table$insurer %in% "Groupe AXA" & New_Table$coverage %in% 'Minimum',]) / nrow(Old_Table[Old_Table$insurer %in% "Groupe AXA" & Old_Table$coverage %in% 'Minimum',]) ) - 1
 
 
 
@@ -150,7 +159,7 @@ for (job in jobs_status) {
 
 
 
-test <- by(data = Table_Benchmark_Global_jobs$primary_applicant_occupation_code, INDICES = Table_Benchmark_Global_jobs$insurer, FUN =  count)
+# test <- by(data = Table_Benchmark_Global_jobs$primary_applicant_occupation_code, INDICES = Table_Benchmark_Global_jobs$insurer, FUN =  count)
 
 
 
@@ -184,10 +193,18 @@ Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutat
 Comparative_Table$Var_Price = (Comparative_Table$price.x / Comparative_Table$price.y) - 1
 
 
+Comparative_Table$Avg_Var_Price <-  ( Comparative_Table$Avg_Price_2  / Comparative_Table$Avg_Price_1 ) - 1
 
-Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutate(Avg_Var_Price = mean((price.x / price.y) - 1) )
 
-Comparative_Table <- Comparative_Table[,c(2,3,15,16,17)]
+Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutate(Avg_Var_Price_2 = mean((price.x / price.y) - 1) )
+
+
+
+Comparative_Table_all <- merge(Comparative_Table, New_Table_complete, by=c('profilID', 'insurer', 'coverage'), all.x = F, all.y = F)
+
+
+Comparative_Table <- Comparative_Table[,c(2,3,16,17,19,20)]
+
 
 Comparative_Table <- unique(Comparative_Table)
 
@@ -200,7 +217,37 @@ write.csv(Comparative_Table, "./Tables/Comparative_Table.csv")
 
 
 
+## Same, but more precise, for Direct Assurance only.
 
+Old_Table <- crawling_all[crawling_all$period %in% "Y17W46",]
+
+
+Comparative_Table_DA = merge(New_Table, Old_Table, by=c('profilID', 'insurer', 'coverage'), all.x = TRUE, all.y = TRUE)
+
+Comparative_Table_DA = na.omit(Comparative_Table_DA)
+
+
+Comparative_Table_DA <- Comparative_Table_DA %>% group_by(insurer, coverage) %>% mutate(Avg_Price_1 = mean(price.y) )
+Comparative_Table_DA <- Comparative_Table_DA %>% group_by(insurer, coverage) %>% mutate(Avg_Price_2 = mean(price.x) )
+
+
+Comparative_Table_DA$Var_Price = (Comparative_Table_DA$price.x / Comparative_Table_DA$price.y) - 1
+
+
+
+Comparative_Table_DA <- Comparative_Table_DA %>% group_by(insurer, coverage) %>% mutate(Avg_Var_Price = mean((price.x / price.y) - 1) )
+
+Comparative_Table_DA <- Comparative_Table_DA[,c(1,2,3,4,14,18)]
+
+Comparative_Table_DA <- Comparative_Table_DA[Comparative_Table_DA$insurer %in% "Groupe AXA",]
+
+Comparative_Table_DA <- merge(Comparative_Table_DA, New_Table_complete, by=c('profilID', 'insurer', 'coverage'), all.x = F, all.y = F)
+
+
+Comparative_Table_DA <- unique(Comparative_Table_DA)
+
+
+write.csv(Comparative_Table_DA, "./Tables/Comparative_Table_DA.csv")
 
 
 
@@ -237,6 +284,37 @@ write.csv(table_age_all, "./Tables/Table_Age_All.csv")
 max(Data$primary_applicant_age[grepl('Groupe AVIVA', Data$insurer)])
 
 
+# Plot des tarifs et ranking pour chacun de ces segments
+
+segments_age <- c(18,25,35,45,55,100)
+Price_by_Age <- New_Table_complete_PCA[,c(1,2,3, 12)]
+Price_by_Age <- Price_by_Age[Price_by_Age$insurer %in% BENCHMARK,]
+Price_by_Age_all <- Price_by_Age
+
+
+age= 1
+
+
+for (age in seq(1, length(segments_age)-1,1)) {
+  Price_by_Age_bis <- Price_by_Age[Price_by_Age$primary_applicant_age  >= segments_age[age] 
+                                         & Price_by_Age$primary_applicant_age < segments_age[age+1] ,] %>% 
+    group_by(insurer, coverage) %>% mutate(Avg_Price = mean(price))
+  
+  Price_by_Age_bis <- Price_by_Age_bis[, c(1,2,5)]
+  Price_by_Age_bis <- unique(Price_by_Age_bis)
+  
+  Price_by_Age_all <- merge(Price_by_Age_all, Price_by_Age_bis, by=c('insurer','coverage'), all.x = T)
+  
+  Price_by_Age_bis <- Price_by_Age
+
+}
+
+unique(Price_by_Age_all$insurer)
+
+Price_by_Age_all <- Price_by_Age_all[,-c(3,4)]
+Price_by_Age_all <- unique(Price_by_Age_all)
+
+Price_by_Age_all <- Price_by_Age_all[order(Price_by_Age_all$coverage),]
 
 
 ## Plot des fréquences pour le montant de l'emprunt.
