@@ -33,7 +33,7 @@ source("./Scripts/Price_Gap-Market_Intensity.R")
 
 source("./Scripts/PCA_Crawling.R")
 
-#source("./Scripts/Benchmark_Analysis.R")
+source("./Scripts/Benchmark_Analysis.R")
 
 
 #####################################################################################################################################

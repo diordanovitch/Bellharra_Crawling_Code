@@ -126,13 +126,23 @@ write.csv(ranking_evol_top3, "./Tables/ranking_evol_top3_classics.csv")
 
 
 
-### Ranking comparaison over periods but just with commun prestations to all insurers ###
+### Ranking comparaison over periods (commun profils between 2 periods) uniquely on profiles where DA restitutes ###
 
 crawling_all_butalternatifs <- crawling_all[!crawling_all$insurer %in% ALTERNATIFSPlayers,]
 
 crawling_all_classic <- crawling_all_butalternatifs[!crawling_all_butalternatifs$insurer %in% "SIMPL'ASSUR",]
 
-ranking_evol_top1 = top_propor_Generic(crawling_all_classic,top = 1)
+
+
+# Nous calculons la liste des profils pour lesquels DA restitue à la fois en période 1 et 2.
+profils_ranking_DA <- Comparative_Table_save$profilID[Comparative_Table_save$insurer == 'Groupe AXA'] 
+profils_ranking_DA <- unique(profils_ranking_DA)
+#
+
+
+crawling_all_classic_DA <- crawling_all_classic[crawling_all_classic$profilID %in% profils_ranking_DA,]
+
+ranking_evol_top1 = top_propor_Generic(crawling_all_classic_DA,top = 1)
 
 ranking_evol_top1$proportion=ranking_evol_top1$cumsum/ranking_evol_top1$cumsum2
 ranking_evol_top1$proportion=round(ranking_evol_top1$proportion*100)
@@ -152,15 +162,14 @@ ranking_evol_top1 = ranking_evol_top1[,-c(5,6,11,12)]
 
 ranking_evol_top1$var_prop <- round((ranking_evol_top1$proportion.y / ranking_evol_top1$proportion.x) - 1,1)
 
-save(ranking_evol_top1,file= ("./Tables/ranking_evol_top1_butalternatifs.RData")) 
 
-write.csv(ranking_evol_top1, "./Tables/ranking_evol_top1_classics.csv")
-
+write.csv(ranking_evol_top1, "./Tables/ranking_evol_top1_classics_DA.csv")
 
 
 
 
-ranking_evol_top3 = top_propor_Generic(crawling_all_classic,top = 3)
+
+ranking_evol_top3 = top_propor_Generic(crawling_all_classic_DA,top = 3)
 
 ranking_evol_top3$proportion=ranking_evol_top3$cumsum/ranking_evol_top3$cumsum2
 ranking_evol_top3$proportion=round(ranking_evol_top3$proportion*100)
@@ -180,6 +189,5 @@ ranking_evol_top3 = ranking_evol_top3[,-c(5,6,11,12)]
 
 ranking_evol_top3$var_prop <- round((ranking_evol_top3$proportion.y / ranking_evol_top3$proportion.x) - 1,1)
 
-save(ranking_evol_top3,file= ("./Tables/ranking_evol_top3.RData")) 
 
-write.csv(ranking_evol_top3, "./Tables/ranking_evol_top3_classics.csv")
+write.csv(ranking_evol_top3, "./Tables/ranking_evol_top3_classics_DA.csv")
