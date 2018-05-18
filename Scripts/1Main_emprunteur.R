@@ -27,7 +27,6 @@ source("./Scripts/11Cumul_Evolution_emprunteur.R")
 
 
 
-source("./Scripts/10MR_global_ranking_Generic_emprunteur.R")
 
 source("./Scripts/Price_Gap-Market_Intensity.R")
 
@@ -35,6 +34,7 @@ source("./Scripts/PCA_Crawling.R")
 
 source("./Scripts/Benchmark_Analysis.R")
 
+source("./Scripts/10MR_global_ranking_Generic_emprunteur.R")
 
 #####################################################################################################################################
 # WHEN IT'S DONE, YOU HAVE THE RDATA TABLES YOU NEED FOR THE PRODUCTION DATABASE IN "./output_MR_all/Assurland_Loan" :              #

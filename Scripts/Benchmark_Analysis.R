@@ -104,9 +104,27 @@ Table_Benchmark_Global <- Table_Benchmark_Global %>% group_by(insurer, coverage)
 
 Table_Benchmark_Global <- Table_Benchmark_Global %>% group_by(insurer, coverage) %>% mutate( Risk.Prop = 1 - ( sum(primary_applicant_risk == 'Non' | primary_applicant_risk ==  'None') / length(primary_applicant_risk) ) )
 
+
+# Calcul des prix pour les clients à risk.
+
+Price_Risk <- Table_Benchmark %>% filter(primary_applicant_risk == 'Oui')
+Price_Risk <- Price_Risk %>% group_by(coverage,insurer) %>% summarise(Price.Risk = mean(price) )
+
+write.csv(Price_Risk, "./Tables/Price_Risk.csv")
+
+
+
+
 ## Computation of smokers proportion.
 
 Table_Benchmark_Global <- Table_Benchmark_Global %>% group_by(insurer, coverage) %>% mutate( Smoke.Prop = 1 - ( sum(primary_applicant_smoke == 'Non') / length(primary_applicant_smoke) ) )
+
+# Calcul des prix pour les smokers.
+
+Price_Smokers <- Table_Benchmark %>% filter(primary_applicant_smoke == 'Oui' | primary_applicant_smoke == 'oui' )
+Price_Smokers <- Price_Smokers %>% group_by(coverage,insurer) %>% summarise(Price.Smokers = mean(price) )
+  
+write.csv(Price_Smokers, "./Tables/Price_Smokers.csv")
 
 
 
@@ -411,7 +429,7 @@ Price_by_Amount_all <- Price_by_Amount_all[order(Price_by_Amount_all$coverage),]
 write.csv(Price_by_Amount_all, "./Tables/Price_by_Amount.csv")
 
 
-
+View(New_Table_complete %>% filter(coverage == 'Minimum' & primary_applicant_occupation_code == 'Etudiant') )
 
 
 ## Plot des fréquences pour la durée de l'emprunt.

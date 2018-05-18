@@ -1,0 +1,182 @@
+"","insurer","coverage","primary_applicant_occupation_code","Avg.Price"
+"1","SIMPL'ASSUR","Formule Optimum","Agriculteur",11761.3333333333
+"2","Groupe AVIVA","Formule Optimum","Agriculteur",9031
+"3","AXA","Formule Optimum","Agriculteur",10518
+"4","Zen'up","Formule Optimum","Agriculteur",19867.3333333333
+"5","Groupe AXA","Formule Optimum","Agriculteur",16017.6666666667
+"6","MAAF Assurances","Formule Optimum","Agriculteur",17452.3333333333
+"7","Groupe AVIVA","Minimum","Agriculteur",4765
+"8","Groupe AXA","Minimum","Agriculteur",12899.6666666667
+"9","MAAF Assurances","Minimum","Agriculteur",14008.3333333333
+"10","AXA","Minimum","Agriculteur",3708.5
+"11","Zen'up","Minimum","Agriculteur",15471.3333333333
+"12","SIMPL'ASSUR","Minimum","Agriculteur",8588
+"13","MAAF Assurances","Formule Optimum","Artisan",3221
+"14","Groupe AVIVA","Formule Optimum","Artisan",4296
+"15","AXA","Formule Optimum","Artisan",4466
+"16","Zen'up","Formule Optimum","Artisan",2977
+"17","SIMPL'ASSUR","Formule Optimum","Artisan",2964
+"18","SIMPL'ASSUR","Minimum","Artisan",11302.5
+"19","MAAF Assurances","Minimum","Artisan",14332.5
+"20","Zen'up","Minimum","Artisan",8790
+"21","Groupe AXA","Minimum","Artisan",11431.5
+"22","AXA","Minimum","Artisan",2050
+"23","Groupe AVIVA","Minimum","Artisan",2023
+"24","Cardif","Formule Optimum","Chef d'entreprise",6318
+"25","MAAF Assurances","Formule Optimum","Chef d'entreprise",12605.5
+"26","AXA","Formule Optimum","Chef d'entreprise",5382
+"27","Groupe AXA","Formule Optimum","Chef d'entreprise",5739.77777777778
+"28","Zen'up","Formule Optimum","Chef d'entreprise",7437.52941176471
+"29","SIMPL'ASSUR","Formule Optimum","Chef d'entreprise",7200.06666666667
+"30","Zen'up","Minimum","Chef d'entreprise",4615.12903225806
+"31","AXA","Minimum","Chef d'entreprise",4835.5
+"32","Cardif","Minimum","Chef d'entreprise",3582.45454545455
+"33","Groupe AVIVA","Minimum","Chef d'entreprise",5392.83333333333
+"34","MAAF Assurances","Minimum","Chef d'entreprise",7472.84615384615
+"35","Groupe AXA","Minimum","Chef d'entreprise",3804.47368421053
+"36","SIMPL'ASSUR","Minimum","Chef d'entreprise",3851.62962962963
+"37","Groupe AXA","Formule Optimum","Commerçant",11878
+"38","MAAF Assurances","Formule Optimum","Commerçant",19039
+"39","Cardif","Formule Optimum","Commerçant",13930
+"40","Zen'up","Formule Optimum","Commerçant",16990
+"41","Groupe AVIVA","Formule Optimum","Commerçant",18783
+"42","SIMPL'ASSUR","Minimum","Commerçant",2651
+"43","Zen'up","Minimum","Commerçant",4816
+"44","Groupe AVIVA","Minimum","Commerçant",4901.25
+"45","MAAF Assurances","Minimum","Commerçant",5714.33333333333
+"46","AXA","Minimum","Commerçant",3119.66666666667
+"47","Cardif","Minimum","Commerçant",4745
+"48","Groupe AXA","Minimum","Commerçant",4298
+"49","Cardif","Formule Optimum","Enseignant",8187.5
+"50","SIMPL'ASSUR","Formule Optimum","Enseignant",11081.7142857143
+"51","MAAF Assurances","Formule Optimum","Enseignant",15264.8
+"52","Zen'up","Formule Optimum","Enseignant",13505
+"53","Groupe AXA","Formule Optimum","Enseignant",11549
+"54","Groupe AVIVA","Formule Optimum","Enseignant",8460.25
+"55","AXA","Formule Optimum","Enseignant",8561.66666666667
+"56","Groupe AXA","Minimum","Enseignant",5750.45454545455
+"57","SIMPL'ASSUR","Minimum","Enseignant",6537.15384615385
+"58","MAAF Assurances","Minimum","Enseignant",10068.4285714286
+"59","Zen'up","Minimum","Enseignant",8318.5
+"60","AXA","Minimum","Enseignant",4141.55555555556
+"61","Cardif","Minimum","Enseignant",4304.7
+"62","Groupe AVIVA","Minimum","Enseignant",3753.88888888889
+"63","Groupe AXA","Formule Optimum","Etudiant",5413
+"64","SIMPL'ASSUR","Formule Optimum","Etudiant",8624
+"65","Zen'up","Formule Optimum","Etudiant",8834
+"66","Groupe AXA","Minimum","Etudiant",3454
+"67","SIMPL'ASSUR","Minimum","Etudiant",3664
+"68","AXA","Minimum","Etudiant",4574
+"69","Zen'up","Minimum","Etudiant",4739
+"70","MAAF Assurances","Minimum","Etudiant",4898
+"71","SIMPL'ASSUR","Formule Optimum","Fonctionnaire",9754.92307692308
+"72","Groupe AVIVA","Formule Optimum","Fonctionnaire",10239.5555555556
+"73","Cardif","Formule Optimum","Fonctionnaire",9195.66666666667
+"74","AXA","Formule Optimum","Fonctionnaire",10254.7142857143
+"75","MAAF Assurances","Formule Optimum","Fonctionnaire",10541.4
+"76","Zen'up","Formule Optimum","Fonctionnaire",9317.75
+"77","Groupe AXA","Formule Optimum","Fonctionnaire",4917.93333333333
+"78","Groupe AXA","Minimum","Fonctionnaire",5163.08571428571
+"79","SIMPL'ASSUR","Minimum","Fonctionnaire",5839.8
+"80","Groupe AVIVA","Minimum","Fonctionnaire",5182.67857142857
+"81","AXA","Minimum","Fonctionnaire",5593.0303030303
+"82","Cardif","Minimum","Fonctionnaire",4988.95454545455
+"83","MAAF Assurances","Minimum","Fonctionnaire",9236.14285714286
+"84","Zen'up","Minimum","Fonctionnaire",6916.04545454545
+"85","Groupe AXA","Formule Optimum","Ouvrier",16024
+"86","Zen'up","Formule Optimum","Ouvrier",24117
+"87","MAAF Assurances","Formule Optimum","Ouvrier",25199.5
+"88","SIMPL'ASSUR","Formule Optimum","Ouvrier",12576.3333333333
+"89","Cardif","Formule Optimum","Ouvrier",5921
+"90","Groupe AVIVA","Formule Optimum","Ouvrier",1796
+"91","Groupe AXA","Minimum","Ouvrier",8501
+"92","Zen'up","Minimum","Ouvrier",12729.6666666667
+"93","SIMPL'ASSUR","Minimum","Ouvrier",6404.5
+"94","MAAF Assurances","Minimum","Ouvrier",14345.3333333333
+"95","Cardif","Minimum","Ouvrier",2384.33333333333
+"96","AXA","Minimum","Ouvrier",3110.5
+"97","Groupe AVIVA","Minimum","Ouvrier",963.5
+"98","SIMPL'ASSUR","Formule Optimum","Profession du spectacle",5188.5
+"99","Groupe AXA","Formule Optimum","Profession du spectacle",6561
+"100","MAAF Assurances","Formule Optimum","Profession du spectacle",9492
+"101","Zen'up","Formule Optimum","Profession du spectacle",7953
+"102","AXA","Minimum","Profession du spectacle",3717
+"103","SIMPL'ASSUR","Minimum","Profession du spectacle",2506.5
+"104","Zen'up","Minimum","Profession du spectacle",4817
+"105","Groupe AXA","Minimum","Profession du spectacle",4190
+"106","MAAF Assurances","Minimum","Profession du spectacle",6088
+"107","Zen'up","Formule Optimum","Profession Libérale",7748.5
+"108","SIMPL'ASSUR","Formule Optimum","Profession Libérale",7038
+"109","MAAF Assurances","Formule Optimum","Profession Libérale",7309
+"110","Cardif","Formule Optimum","Profession Libérale",5536.5
+"111","Groupe AXA","Formule Optimum","Profession Libérale",4822
+"112","AXA","Formule Optimum","Profession Libérale",2528
+"113","Groupe AXA","Minimum","Profession Libérale",3789.375
+"114","Zen'up","Minimum","Profession Libérale",5408.6
+"115","AXA","Minimum","Profession Libérale",3194.85714285714
+"116","Cardif","Minimum","Profession Libérale",2917.5
+"117","MAAF Assurances","Minimum","Profession Libérale",4299.4
+"118","SIMPL'ASSUR","Minimum","Profession Libérale",3196.5
+"119","Groupe AVIVA","Minimum","Profession Libérale",6500.66666666667
+"120","SIMPL'ASSUR","Formule Optimum","Profession médicale",6699
+"121","MAAF Assurances","Formule Optimum","Profession médicale",6661.25
+"122","Zen'up","Formule Optimum","Profession médicale",9856.5
+"123","Groupe AVIVA","Formule Optimum","Profession médicale",11805.5
+"124","AXA","Formule Optimum","Profession médicale",3721
+"125","SIMPL'ASSUR","Minimum","Profession médicale",3135.5
+"126","AXA","Minimum","Profession médicale",6946.2
+"127","MAAF Assurances","Minimum","Profession médicale",3859
+"128","Zen'up","Minimum","Profession médicale",4028.75
+"129","Groupe AVIVA","Minimum","Profession médicale",7032
+"130","Groupe AXA","Formule Optimum","Recherche d'emploi",6046.2
+"131","Zen'up","Formule Optimum","Recherche d'emploi",16143
+"132","SIMPL'ASSUR","Formule Optimum","Recherche d'emploi",8741.6
+"133","MAAF Assurances","Formule Optimum","Recherche d'emploi",15969.3333333333
+"134","SIMPL'ASSUR","Minimum","Recherche d'emploi",4415.8
+"135","Groupe AXA","Minimum","Recherche d'emploi",4048.8
+"136","Zen'up","Minimum","Recherche d'emploi",10430.5
+"137","AXA","Minimum","Recherche d'emploi",5837.66666666667
+"138","Groupe AVIVA","Minimum","Recherche d'emploi",3905.5
+"139","MAAF Assurances","Minimum","Recherche d'emploi",12085
+"140","Cardif","Minimum","Recherche d'emploi",5545
+"141","SIMPL'ASSUR","Formule Optimum","Retraité ",48445
+"142","SIMPL'ASSUR","Minimum","Retraité ",33572.3333333333
+"143","MAAF Assurances","Minimum","Retraité ",45619
+"144","AXA","Minimum","Retraité ",22916.5
+"145","SIMPL'ASSUR","Formule Optimum","Salarié ",8212.90740740741
+"146","Groupe AVIVA","Formule Optimum","Salarié ",6528.78125
+"147","Groupe AXA","Formule Optimum","Salarié ",6397.3125
+"148","Cardif","Formule Optimum","Salarié ",8354.15151515152
+"149","AXA","Formule Optimum","Salarié ",9922.24137931034
+"150","MAAF Assurances","Formule Optimum","Salarié ",9864.12903225806
+"151","Zen'up","Formule Optimum","Salarié ",8040.8
+"152","Groupe AXA","Minimum","Salarié ",3798.12903225806
+"153","Groupe AVIVA","Minimum","Salarié ",3781.23188405797
+"154","SIMPL'ASSUR","Minimum","Salarié ",4591.28421052632
+"155","Cardif","Minimum","Salarié ",4938.22807017544
+"156","Zen'up","Minimum","Salarié ",4198.3
+"157","AXA","Minimum","Salarié ",5397.22784810127
+"158","MAAF Assurances","Minimum","Salarié ",5379.85294117647
+"159","AXA","Formule Optimum","Salarié cadre",4931.49253731343
+"160","MAAF Assurances","Formule Optimum","Salarié cadre",6664.57333333333
+"161","Zen'up","Formule Optimum","Salarié cadre",4921.42168674699
+"162","Groupe AXA","Formule Optimum","Salarié cadre",5499.98863636364
+"163","Cardif","Formule Optimum","Salarié cadre",5314.93103448276
+"164","Groupe AVIVA","Formule Optimum","Salarié cadre",4590.43902439024
+"165","SIMPL'ASSUR","Formule Optimum","Salarié cadre",6890.16666666667
+"166","MAAF Assurances","Minimum","Salarié cadre",4950.75572519084
+"167","Zen'up","Minimum","Salarié cadre",3063.9375
+"168","Groupe AXA","Minimum","Salarié cadre",3598.44585987261
+"169","Cardif","Minimum","Salarié cadre",3753.91
+"170","SIMPL'ASSUR","Minimum","Salarié cadre",4609.69178082192
+"171","AXA","Minimum","Salarié cadre",4419.58741258741
+"172","Groupe AVIVA","Minimum","Salarié cadre",2917.48717948718
+"173","SIMPL'ASSUR","Formule Optimum","Sans Profession",7856.83333333333
+"174","Zen'up","Formule Optimum","Sans Profession",7122.25
+"175","MAAF Assurances","Formule Optimum","Sans Profession",8682.2
+"176","Groupe AVIVA","Minimum","Sans Profession",3256.125
+"177","Cardif","Minimum","Sans Profession",3360.11111111111
+"178","AXA","Minimum","Sans Profession",3641.3
+"179","SIMPL'ASSUR","Minimum","Sans Profession",4104.1
+"180","Zen'up","Minimum","Sans Profession",3738.57142857143
+"181","MAAF Assurances","Minimum","Sans Profession",5465.375
