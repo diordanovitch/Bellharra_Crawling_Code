@@ -28,9 +28,23 @@ New_Table_complete_PCA$firstloan_amount = as.numeric(New_Table_complete_PCA$firs
 
 
 
-# crawling_mfa = FAMD(New_Table_complete_PCA, type = c("n", "n", "c", "n", "c", "n", "n", "c", "c", "c", "n", "c", "n", "n", "n","n",
-#                                                     "n", "n", "n", "c", "n", "c", "n", "n", "n", "n", "n", "n", "n"),
-#                    group=c(12,2, 4, 2, 2, 2, 2, 16, 6, 3, 5, 3, 3, 3, 7, 14, 6, 3, 5, 3, 4), num.group.sup = c(1,2,4))
+
+# ## We do the same with the previous crawling, which can be useful for comparative analysis.
+# 
+# Old_Table_PCA = Old_Table[, c(3,4,5,7)]
+# 
+# Old_Table_PCA$type =""
+# Old_Table_PCA[Old_Table_PCA$insurer%in%CLASSIQUEPlayers,]$type="CLASSIQUE"
+# Old_Table_PCA[Old_Table_PCA$insurer%in%ALTERNATIFSPlayers,]$type="ALTERNATIFS"
+# Old_Table_PCA[Old_Table_PCA$insurer%in%BANCASSUREURPlayers,]$type="BANCASSUREUR"
+# Old_Table_PCA[Old_Table_PCA$insurer%in%MUTUELLEPlayers,]$type="MUTUELLE"
+# 
+# Old_Table_PCA$type = as.factor(Old_Table_PCA$type)
+# 
+# Old_Table_complete = merge(Old_Table_PCA, profils, by=c('profilID'), all.x = TRUE, all.y = TRUE)
+# 
+
+
 
 
 

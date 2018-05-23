@@ -1,5 +1,17 @@
+# Nous calculons la liste des profils pour lesquels DA restitue à la fois en période 1 et 2.
+profils_ranking_DA <- Comparative_Table_save$profilID[Comparative_Table_save$insurer == 'Groupe AXA'] 
+profils_ranking_DA <- unique(profils_ranking_DA)
+#
+
+
+
 
 ### Global Ranking ###
+
+New_Table_DA = New_Table[New_Table$profilID %in% profils_ranking_DA,] # If we want to analyse the ranking just for the profils for which
+# Direct Assurance restitue for the 2 periods.
+New_Table_DA = New_Table_DA [New_Table_DA$insurer %in% BENCHMARK,]
+
 
 ranking_top1 = top_propor_Generic(New_Table,top = 1)
 
@@ -14,6 +26,7 @@ save(ranking_top1,file= ("./Tables/ranking_top1.RData"))
 
 
 
+New_Table_B = New_Table[New_Table$insurer %in% BENCHMARK,]
 
 ranking_top3 = top_propor_Generic(New_Table,top = 3)
 
@@ -134,10 +147,7 @@ crawling_all_classic <- crawling_all_butalternatifs[!crawling_all_butalternatifs
 
 
 
-# Nous calculons la liste des profils pour lesquels DA restitue à la fois en période 1 et 2.
-profils_ranking_DA <- Comparative_Table_save$profilID[Comparative_Table_save$insurer == 'Groupe AXA'] 
-profils_ranking_DA <- unique(profils_ranking_DA)
-#
+
 
 
 crawling_all_classic_DA <- crawling_all_classic[crawling_all_classic$profilID %in% profils_ranking_DA,]

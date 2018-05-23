@@ -329,7 +329,7 @@ top_propor_Generic <- function(tables,top = 1){
       
       temp=tables[tables$period==LocPeriod,]
       temp=temp[temp$coverage==LocFomulas,]
-      
+
       temp=as.data.table(temp)
       temp[,rank:=rank(price,ties.method="first"),by=c("profilID","coverage","period","Segment")]
       r= 1:top 
@@ -338,8 +338,8 @@ top_propor_Generic <- function(tables,top = 1){
       temp$ct=1
       
       temp[, cumsum:=lapply(.SD, sum), by = c("insurer","coverage","period","Segment"),.SDcols=c("ct")] # Nb of rank 1 for one insurer during one period for selected coverage
-      temp[, cumsum2:=lapply(.SD, sum), by = c("coverage","period","Segment"),.SDcols=c("ct")] # Nb of rank 1 for all insurers during one period for selected coverage
-      
+      temp[, cumsum2:=lapply(.SD, sum), by = c("coverage","period","Segment"),.SDcols=c("ct")]  # Nb of rank 1 for all insurers during one period for selected coverage
+      temp$cumsum2 = temp$cumsum2 / max(r)
       
       if(j==1)  {savefrdata=as.data.frame(temp)} else savefrdata=rbind(savefrdata,temp)
       rm(temp)

@@ -247,9 +247,6 @@ Comparative_Table <- Comparative_Table %>% group_by(insurer, coverage) %>% mutat
 Comparative_Table_save <- Comparative_Table
 Comparative_Table_all <- merge(Comparative_Table, New_Table_complete, by=c('profilID', 'insurer', 'coverage'), all.x = F, all.y = F)
 
-
-
-
 Comparative_Table <- Comparative_Table[,c(2,3,16,17,19,20)]
 
 
@@ -260,6 +257,24 @@ Comparative_Table <- unique(Comparative_Table)
 Comparative_Table <- Comparative_Table[Comparative_Table$insurer %in% BENCHMARK,]
 
 write.csv(Comparative_Table, "./Tables/Comparative_Table.csv")
+
+
+# We compare the bias of 'contract_start_days' between insurers.
+
+Comparative_Table_bias <- Comparative_Table_all %>% group_by(insurer, coverage, contract_start_days) %>% mutate(Var.Price = mean(Var_Price))
+Comparative_Table_bias <- Comparative_Table_bias[Comparative_Table_bias$insurer %in% BENCHMARK,]
+Comparative_Table_bias <- Comparative_Table_bias %>% filter(insurer!='AXA' & insurer!="Zen'up" & insurer!="SIMPL'ASSUR")
+Comparative_Table_bias <-  Comparative_Table_bias %>% group_by(coverage, contract_start_days) %>% mutate(Standard = mean(Var.Price))
+Comparative_Table_bias$Mean.Var[Comparative_Table_bias$insurer =='Groupe AXA'] = Comparative_Table_bias$Mean.Var[Comparative_Table_bias$insurer =='Groupe AXA'] - 0.07
+Comparative_Table_bias$Delta = Comparative_Table_bias$Standard - Comparative_Table_bias$Var.Price
+
+
+
+Comparative_Table_bias <- Comparative_Table_bias %>% filter(abs(Delta) > 0.2)
+
+
+
+#
 
 
 
@@ -292,6 +307,8 @@ Comparative_Table_DA <- merge(Comparative_Table_DA, New_Table_complete, by=c('pr
 
 
 Comparative_Table_DA <- unique(Comparative_Table_DA)
+
+profils_DA <- unique(Comparative_Table_DA$profilID)
 
 
 write.csv(Comparative_Table_DA, "./Tables/Comparative_Table_DA.csv")
