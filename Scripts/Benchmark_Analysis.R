@@ -446,8 +446,6 @@ Price_by_Amount_all <- Price_by_Amount_all[order(Price_by_Amount_all$coverage),]
 write.csv(Price_by_Amount_all, "./Tables/Price_by_Amount.csv")
 
 
-View(New_Table_complete %>% filter(coverage == 'Minimum' & primary_applicant_occupation_code == 'Etudiant') )
-
 
 ## Plot des fréquences pour la durée de l'emprunt.
 

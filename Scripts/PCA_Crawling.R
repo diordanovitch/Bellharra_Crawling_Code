@@ -28,9 +28,7 @@ New_Table_complete_PCA$firstloan_amount = as.numeric(New_Table_complete_PCA$firs
 
 
 
-
 # ## We do the same with the previous crawling, which can be useful for comparative analysis.
-# 
 # Old_Table_PCA = Old_Table[, c(3,4,5,7)]
 # 
 # Old_Table_PCA$type =""
@@ -42,7 +40,7 @@ New_Table_complete_PCA$firstloan_amount = as.numeric(New_Table_complete_PCA$firs
 # Old_Table_PCA$type = as.factor(Old_Table_PCA$type)
 # 
 # Old_Table_complete = merge(Old_Table_PCA, profils, by=c('profilID'), all.x = TRUE, all.y = TRUE)
-# 
+# ##
 
 
 

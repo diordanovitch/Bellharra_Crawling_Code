@@ -15,7 +15,8 @@
 
 neededPacks = c("scales","ggplot2", "plyr", "RColorBrewer", "data.table", "reshape","stringr","gtools",
 	"grid","chron","TTR", "RPostgreSQL","gridExtra","sqldf", "colorspace", "reshape2", 
-	"lme4", "doBy", "DBI", "xts","zoo","Matrix", "Rcpp","foreach", "parallel", "doParallel", "dplyr", "plotly", "FactoMineR")
+	"lme4", "doBy", "DBI", "xts","zoo","Matrix", "Rcpp","foreach", "parallel", "doParallel", "dplyr", "plotly", "FactoMineR", 
+	"glmnet", "rpart", "rpart.plot")
 				
 for (packLoc in neededPacks) {
   if (!is.element(packLoc, installed.packages()[,1])) {
