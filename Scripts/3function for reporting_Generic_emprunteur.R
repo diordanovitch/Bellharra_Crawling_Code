@@ -830,317 +830,125 @@ cumullog_graphs=function(data,forNames,Typc,Typ,path){
 
 
 
+### Function to compute the importance of variables in a tree
 
-
-
-####### Functions to store and download database ####### 
-
-
-### cumulated evolution ###
-
-storeCumulatedEvolution <- function(data){
+importance <- function(mytree) {
   
-  cumtab=data.frame(period=data$period,insurer=data$insurer,coverage=data$coverage,type=data$type,cumul=data$cumul)
-  cumtab = unique(cumtab)
+  # Calculate variable importance for an rpart classification tree
   
+  # NOTE!! The tree *must* be based upon data that has the response (a factor)
+  #        in the *first* column
   
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
+  # Returns an object of class 'importance.rpart'
   
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
+  # You can use print() and summary() to find information on the result
   
-  # Delete all prices to rebuild the table
-  #   dbGetQuery(conMetis,"DELETE FROM report_italy.\"Cumul_IT_monthly\";")
+  delta_i <- function(data,variable,value) {
+    # Calculate the decrease in impurity at a particular node given:
+    
+    #  data -- the subset of the data that 'reaches' a particular node
+    #  variable -- the variable to be used to split the data
+    #  value -- the 'split value' for the variable
+    
+    current_gini <- gini(data[,1])
+    size <- length(data[,1])
+    left_dataset <- eval(parse(text=paste("subset(data,",paste(variable,"<",value),")")))
+    size_left <- length(left_dataset[,1])
+    left_gini <- gini(left_dataset[,1])
+    right_dataset <- eval(parse(text=paste("subset(data,",paste(variable,">=",value),")")))
+    size_right <- length(right_dataset[,1])
+    right_gini <- gini(right_dataset[,1])
+    # print(paste("     Gini values: current=",current_gini,"(size=",size,") left=",left_gini,"(size=",size_left,"), right=", right_gini,"(size=",size_right,")"))
+    current_gini*size-length(left_dataset[,1])*left_gini-length(right_dataset[,1])*right_gini
+  }
   
-  dataW=dbWriteTable(conMetis,c("report_italy","Cumul_IT_monthly"),cumtab,row.names=FALSE,append = TRUE)
+  gini <- function(data) {
+    # Calculate the gini value for a vector of categorical data
+    numFactors = nlevels(data)
+    nameFactors = levels(data)
+    proportion = rep(0,numFactors)
+    for (i in 1:numFactors) {
+      proportion[i] = sum(data==nameFactors[i])/length(data)
+    }
+    1-sum(proportion**2)
+  }
   
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
+  frame <- mytree$frame
+  splits <- mytree$splits
+  allData <- eval(mytree$call$data)
   
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
+  output <- ""
+  finalAnswer <- rep(0,length(names(allData)))
+  names(finalAnswer) <- names(allData)
   
-}
-
-
-
-
-### downloadCumulatedEvolution ###
-
-downloadCumulatedEvolution <- function(){
+  d <- dimnames(frame)[[1]]
+  # Make this vector of length = the max nodeID
+  # It will be a lookup table from frame-->splits
+  index <- rep(0,as.integer(d[length(d)]))
+  total <- 1
+  for (node in 1:length(frame[,1])) {
+    if (frame[node,]$var!="<leaf>") {
+      nodeID <- as.integer(d[node])
+      index[nodeID] <- total
+      total <- total + frame[node,]$ncompete + frame[node,]$nsurrogate+ 1
+    }
+  }
   
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  cumul_old = dbGetQuery(conMetis,paste("SELECT * FROM report_italy.\"Cumul_IT_monthly\";",sep=""))
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
-  return(cumul_old)
-  
-}
-
-
-
-### Store the average premium ###
-# SCHEMA : {period,insurer,coverage,type,avg}
-storeAveragePremium <- function(data){
-  
-  avetab=data.frame(period=data$period,insurer=data$insurer,coverage=data$coverage,type=data$type,avg=data$avg)
-  avetab = unique(avetab)
-  
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  # Delete all prices to rebuild the table
-  #   dbGetQuery(conMetis,"DELETE FROM report_italy.\"Avg_IT_monthly\";")
-  
-  dataW=dbWriteTable(conMetis,c("report_italy","Avg_IT_monthly"),avetab,row.names=FALSE,append = TRUE)
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
-  
-}
-
-
-
-
-### downloadAveragePremium ###
-
-downloadAveragePremium  <- function(){
-  
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  average_old = dbGetQuery(conMetis,paste("SELECT * FROM report_italy.\"Avg_IT_monthly\";",sep=""))
-  
-  ## Closes the connection
-  dbDisconnect(conMetis)
-  #### Metis connection closed ####
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  return(average_old)
-  
-}
-
-
-### Store the display rate ###
-# SCHEMA : {period,insurer,coverage,type,avg}
-storeDisplay <- function(data){
-  
-  distab=data.frame(period=data$period,insurer=data$insurer,coverage=data$coverage,display=data$Display_prop)
-  distab = unique(distab)
-  
-  for (i in unique(distab$insurer)) {
-    for (j in unique(distab$period)) {
-      for (k in unique(distab$coverage)) {
-        if(as.numeric(nrow(distab[distab$insurer == i & distab$period == j & distab$coverage == k,]))==0)
-        {
-          distab = rbind(distab,data.frame(period=j,insurer=i,coverage=k,display=0))
+  for (node in 1:length(frame[,1])) {
+    if (frame[node,]$var!="<leaf>") {
+      nodeID <- as.integer(d[node])
+      output <- paste(output,"Looking at nodeID:",nodeID,"\n")
+      output <- paste(output," (1) Need to find subset","\n")
+      output <- paste(output,"   Choices made to get here:...","\n")
+      data <- allData
+      if (nodeID%%2==0) symbol <- "<"
+      else symbol <- ">="
+      i <- nodeID%/%2
+      while (i>0) {
+        output <- paste(output,"    Came from nodeID:",i,"\n")
+        variable <- dimnames(splits)[[1]][index[i]]
+        value <- splits[index[i],4]
+        command <- paste("subset(allData,",variable,symbol,value,")")
+        output <- paste(output,"      Applying command",command,"\n")
+        data <- eval(parse(text=command))
+        if (i%%2==0) symbol <- "<"
+        else symbol <- ">="
+        i <- i%/%2
+      }
+      output <- paste(output,"   Size of current subset:",length(data[,1]),"\n")
+      
+      output <- paste(output," (2) Look at importance of chosen split","\n")
+      variable <- dimnames(splits)[[1]][index[nodeID]]	
+      value <- splits[index[nodeID],4]
+      best_delta_i <- delta_i(data,variable,value)
+      output <- paste(output,"   The best delta_i is:",format(best_delta_i,digits=3),"for",variable,"and",value,"\n")
+      finalAnswer[variable] <- finalAnswer[variable] + best_delta_i
+      
+      output <- paste(output,"                   Final answer: ",paste(finalAnswer,collapse=" "),"\n")
+      
+      output <- paste(output," (3) Look at importance of surrogate splits","\n")
+      ncompete <- frame[node,]$ncompete
+      nsurrogate <- frame[node,]$nsurrogate
+      if (nsurrogate>0) {
+        start <- index[nodeID]
+        for (i in seq(start+ncompete+1,start+ncompete+nsurrogate)) {
+          variable <- dimnames(splits)[[1]][i]
+          value <- splits[i,4]
+          best_delta_i <- delta_i(data,variable,value)
+          output <- paste(output,"   The best delta_i is:",format(best_delta_i,digits=3),"for",variable,"and",value,"and agreement of",splits[i,3],"\n")
+          finalAnswer[variable] <- finalAnswer[variable] + best_delta_i*splits[i,3]
+          output <- paste(output,"                   Final answer: ",paste(finalAnswer[2:length(finalAnswer)],collapse=" "),"\n")
         }
       }
     }
   }
-  
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv, dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser, password=dbPassword)
-  
-  # Delete all prices to rebuild the table
-  #   dbGetQuery(conMetis,"DELETE FROM report_italy.\"Dis_IT_monthly\";")
-  
-  
-  dataW=dbWriteTable(conMetis,c("report_italy","Dis_IT_monthly"),distab,row.names=FALSE,append = TRUE)
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
+  result <- list(result=finalAnswer[2:length(finalAnswer)],info=output)
+  class(result) <- "importance.rpart"
+  result
 }
-
-
-
-### downloaddisplay ###
-
-downloaddisplay  <- function(){
-  
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  display_old = dbGetQuery(conMetis,paste("SELECT * FROM report_italy.\"Dis_IT_monthly\";",sep=""))
-  
-  ## Closes the connection
-  dbDisconnect(conMetis)
-  #### Metis connection closed ####
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
-  
+print.importance.rpart <- function(self) {
+  print(self$result)
 }
-
-
-
-
-### store data for ranking calculation ###
-
-storeItData_Direct <- function(itdata_dir){
-  
-  itdata_tmp=data.frame(period=itdata_dir$yearmonth,profilID=itdata_dir$profilID,insurer=itdata_dir$insurer,coverage=itdata_dir$coverage,price=itdata_dir$price)
-  itdata_tmp=unique(itdata_tmp)
-  
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  
-  dataW=dbWriteTable(conMetis,c("report_italy","ItData_Direct_monthly"),itdata_tmp,row.names=FALSE,append = TRUE)
-  
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
-  
-}
-
-
-
-
-### download periods from ItData_Direct_monthly ###
-
-downloaddirect_period  <- function(){
-  
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  directdata_period = dbGetQuery(conMetis,paste("SELECT \"period\" FROM report_italy.\"ItData_Direct_monthly\";",sep=""))
-  
-  ## Closes the connection
-  dbDisconnect(conMetis)
-  #### Metis connection closed ####
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  return(directdata_period)
-  
-}
-
-
-
-### store direct players scope ###
-
-storeDIRECTPLAYERS <- function(data){
-  
-  itdata_tmp=data.frame(insurer=data$insurer,period=data$period,coverage=data$coverage,PlayerType=data$PlayerType,AvgEvolByProfile=data$AvgEvolByProfile,ImpactedProfile=data$ImpactedProfile,AvgPremium=data$AvgPremium,
-                        AvgPremium_var=data$AvgPremium_var,Display_prop=data$Display_prop,Display_var=data$Display_var,NbProfiles=data$NbProfiles,Playertype=data$Playertype,cumevol=data$cumevol)
-  itdata_tmp=unique(itdata_tmp)
-  
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  dataW=dbWriteTable(conMetis,c("report_italy","DIRECTPlayers"),itdata_tmp,row.names=FALSE,append = TRUE)
-  
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
-  
-}
-
-
-
-
-### Download periods from clean prices ###
-
-downloadcleanprice_period  <- function(){
-  
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv,dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser , password=dbPassword)
-  
-  cleanprice_period = dbGetQuery(conMetis,paste("SELECT \"period\" FROM report_italy.\"Clean_Price_Italy\";",sep=""))
-  
-  ## Closes the connection
-  dbDisconnect(conMetis)
-  #### Metis connection closed ####
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  return(cleanprice_period)
-  
-}
-
-
-
-
-## Download market index ###
-
-downloadmarketindex<- function(){
-  ## loads the PostgreSQL driver
-  drv <- dbDriver("PostgreSQL")
-  
-  #### Open a connection on Metis####
-  conMetis <- dbConnect(drv, dbname=dbMetis, host=dbHost, port=dbPort , user=dbUser, password=dbPassword)
-  
-  marketindex_old = dbGetQuery(conMetis,paste("SELECT * FROM report_italy.\"MarketIndex_IT_monthly\";",sep=""))
-  
-  ## disconnect correctly 
-  lapply(dbListConnections(drv), FUN = dbDisconnect)
-  
-  ## Frees all the resources on the driver
-  dbUnloadDriver(drv)
-  
-  return(marketindex_old)
+summary.importance.rpart <- function(self) {
+  cat(self$info)
 }

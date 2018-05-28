@@ -36,6 +36,8 @@ source("./Scripts/Benchmark_Analysis.R")
 
 source("./Scripts/10MR_global_ranking_Generic_emprunteur.R")
 
+source("./Scripts/Modelisation_Insurers.R")
+
 #####################################################################################################################################
 # WHEN IT'S DONE, YOU HAVE THE RDATA TABLES YOU NEED FOR THE PRODUCTION DATABASE IN "./output_MR_all/Assurland_Loan" :              #
 #                                                                                                                                   #
