@@ -1,5 +1,4 @@
-## First we create CSP groups
-
+### Creation of CSP groups ###
 
 New_Table_complete$primary_applicant_risk[which(New_Table_complete$primary_applicant_risk == 'None')] <- 'Non'
 New_Table_complete$primary_applicant_travel[which(New_Table_complete$primary_applicant_travel == 'None')] <- 'Non'
@@ -41,7 +40,8 @@ unique(New_Table_complete$CSP)
 
 
 
-## Lasso
+
+### Lasso ###
 
 
 Table_ZENUP <- New_Table_complete[,-c(1,5,6,7,38)]
@@ -60,7 +60,7 @@ Table_ZENUP_Min <- Table_ZENUP %>% filter(coverage=='Minimum')
 Table_ZENUP_Opt <- Table_ZENUP %>% filter(coverage=='Formule Optimum')
 
 Table_ZENUP_Min <- Table_ZENUP_Min[,-c(1, 19:30)]
-Table_ZENUP_Opt <- Table_ZENUP_Opt[,-c(1,19:30)]
+Table_ZENUP_Opt <- Table_ZENUP_Opt[,-c(1, 19:30)]
  
 
 
@@ -97,67 +97,114 @@ coef(fit)[,76]
 
 
 
-### Tree
+### Tree ###
 
-# Zen'up
+## Zen'up
+
+# Minimum - Complete
+
 
 Table_ZENUP <- New_Table_complete[,-c(1,5,6,7,38)]
-
 Table_ZENUP <- Table_ZENUP %>% filter(insurer=="Zen'up")
-
-Table_ZENUP_light <- Table_ZENUP[,c(3,6,10,14,34)]
-
-names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âge", "CSP")
-
-
-Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,3)]
-
+Table_ZENUP <- Table_ZENUP %>% filter(coverage == 'Minimum')
+Table_ZENUP_light <- Table_ZENUP[,c(3,6,10,14,17,34)]
+names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âge", "Profession", "CSP")
+Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,3,4,5,6)]
 Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
 Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
-
-
 tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 100, cp=0))
-
 prp(tree_ZENUP, extra=1)
 plotcp(tree_ZENUP)
 
 
-importance(tree_ZENUP)
+# Minimum - Light
+
+Table_ZENUP_light <- Table_ZENUP[,c(3,6,10,14,17,34)]
+names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âge", "Profession", "CSP")
+Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,4)]
+Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
+Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
+tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 100, cp=0))
+prp(tree_ZENUP, extra=1, fallen.leaves = T)
+
+
+# Optimum - Complete
+
+
+Table_ZENUP <- New_Table_complete[,-c(1,5,6,7,38)]
+Table_ZENUP <- Table_ZENUP %>% filter(insurer=="Zen'up")
+Table_ZENUP <- Table_ZENUP %>% filter(coverage == 'Formule Optimum')
+Table_ZENUP_light <- Table_ZENUP[,c(3,6,10,14,17,34)]
+names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âge", "Profession" ,"CSP")
+Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,3,4,5)]
+Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
+Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
+tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 50, cp=0))
+prp(tree_ZENUP, extra=1)
+
+
+
+# Optimum - Light
+
+Table_ZENUP_light <- Table_ZENUP[,c(3,6,10,14,17,34)]
+names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âge", "Profession" ,"CSP")
+Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,4)]
+Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
+Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
+tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 50, cp=0))
+prp(tree_ZENUP, extra=1)
 
 
 
 
+## Comparaison with DA
 
+#  Minimum - Light
 
-# DA
 Table_DA <- New_Table_complete[,-c(1,5,6,7,38)]
-
+Table_All <- New_Table_complete[,-c(1,5,6,7,38)]
 Table_DA <- Table_DA %>% filter(insurer=="Groupe AXA")
-
-Table_DA_light <- Table_DA[,c(3,6,14, 34)]
-Table_DA_light <- sapply(Table_DA_light, as.numeric)
-Table_DA_light <- as.data.frame(Table_DA_light)
-
-tree_DA <- rpart(price~., data=Table_DA_light, control=rpart.control(minsplit=15))
-
-prp(tree_DA, extra=1)
+Table_DA <- Table_DA %>% filter(coverage == 'Minimum')
 
 
+node1 <- which(Table_DA$firstloan_amount<=277e+3 & Table_DA$primary_applicant_age<=30)
+node2 <- which(Table_DA$firstloan_amount<177e+3 & Table_DA$primary_applicant_age>30 & Table_DA$primary_applicant_age<=40)
+node3 <- which(Table_DA$firstloan_amount>177e+3 & Table_DA$primary_applicant_age>30 & Table_DA$primary_applicant_age<=40)
+node4 <- which(Table_DA$firstloan_amount<277e+3 & Table_DA$primary_applicant_age>40 & Table_DA$primary_applicant_age<=48)
+node5 <- which(Table_DA$firstloan_amount>277e+3 & Table_DA$primary_applicant_age<=48)
+node6 <- which(Table_DA$primary_applicant_age>48)
 
-node1 <- which(Table_DA_light$firstloan_amount<=166e+3 & Table_DA_light$primary_applicant_age<=30)
-node2 <- which(Table_DA_light$firstloan_amount>166e+3 & Table_DA_light$primary_applicant_age<=30)
-node3 <- which(Table_DA_light$firstloan_amount<=179e+3 & Table_DA_light$primary_applicant_age>30 & Table_DA_light$primary_applicant_age<=40)
-node4 <- which(Table_DA_light$firstloan_amount>179e+3 & Table_DA_light$primary_applicant_age>30 & Table_DA_light$primary_applicant_age<=40)
-node5 <- which(Table_DA_light$firstloan_amount<=319e+3 & Table_DA_light$primary_applicant_age>40 & Table_DA_light$primary_applicant_age<=48)
-node6 <- which(Table_DA_light$firstloan_amount>319e+3 & Table_DA_light$primary_applicant_age<=48)
-node7 <- which(Table_DA_light$primary_applicant_age>48)
+mean(Table_DA$price[node1])
+mean(Table_DA$price[node2])
+mean(Table_DA$price[node3])
+mean(Table_DA$price[node4])
+mean(Table_DA$price[node5])
+mean(Table_DA$price[node6])
 
-mean(Table_DA_light$price[node1])
-mean(Table_DA_light$price[node2])
-mean(Table_DA_light$price[node3])
-mean(Table_DA_light$price[node4])
-mean(Table_DA_light$price[node5])
-mean(Table_DA_light$price[node6])
-mean(Table_DA_light$price[node7])
 
-mean(New_Table_complete$firstloan_amount)
+
+
+node1 <- which(Table_All$firstloan_amount<=277e+3 & Table_All$primary_applicant_age<=30)
+node2 <- which(Table_All$firstloan_amount<177e+3 & Table_All$primary_applicant_age>30 & Table_All$primary_applicant_age<=40)
+node3 <- which(Table_All$firstloan_amount>177e+3 & Table_All$primary_applicant_age>30 & Table_All$primary_applicant_age<=40)
+node4 <- which(Table_All$firstloan_amount<277e+3 & Table_All$primary_applicant_age>40 & Table_All$primary_applicant_age<=48)
+node5 <- which(Table_All$firstloan_amount>277e+3 & Table_All$primary_applicant_age<=48)
+node6 <- which(Table_All$primary_applicant_age>48)
+
+boxplot(Table_All$price[node1], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_All$price[node1]), labels =fivenum(Table_All$price[node1]), x=1.28)
+boxplot(Table_All$price[node2], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_All$price[node2]), labels =fivenum(Table_All$price[node2]), x=1.28)
+boxplot(Table_All$price[node3], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_All$price[node3]), labels =fivenum(Table_All$price[node3]), x=1.28)
+boxplot(Table_All$price[node4], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_All$price[node4]), labels =fivenum(Table_All$price[node4]), x=1.28)
+boxplot(Table_All$price[node5], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_All$price[node5]), labels =fivenum(Table_All$price[node5]), x=1.28)
+boxplot(Table_All$price[node6], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_All$price[node6]), labels =fivenum(Table_All$price[node6]), x=1.28)
+
+
+
+#  Optimum - Light
+

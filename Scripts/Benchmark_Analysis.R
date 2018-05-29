@@ -128,6 +128,14 @@ write.csv(Price_Smokers, "./Tables/Price_Smokers.csv")
 
 
 
+## Calcul des primes pour les non-déplacements.
+
+Price_NoTravel <- Table_Benchmark %>% filter(primary_applicant_travel == 'Non' | primary_applicant_smoke == 'None' )
+Price_NoTravel <- Price_NoTravel %>% group_by(insurer,coverage) %>% summarise(Price.No.Travel = mean(price))
+
+
+
+
 
 
 ## We remove useless columns and we round.
