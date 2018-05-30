@@ -112,9 +112,9 @@ names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âg
 Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,3,4,5,6)]
 Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
 Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
-tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 100, cp=0))
-prp(tree_ZENUP, extra=1)
-plotcp(tree_ZENUP)
+tree_ZENUP_Min <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 100, cp=0))
+prp(tree_ZENUP_Min, extra=1)
+plotcp(tree_ZENUP_Min)
 
 
 # Minimum - Light
@@ -124,8 +124,8 @@ names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âg
 Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,4)]
 Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
 Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
-tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 100, cp=0))
-prp(tree_ZENUP, extra=1, fallen.leaves = T)
+tree_ZENUP_Min <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 100, cp=0))
+prp(tree_ZENUP_Min, extra=1, fallen.leaves = T)
 
 
 # Optimum - Complete
@@ -139,8 +139,8 @@ names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âg
 Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,3,4,5)]
 Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
 Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
-tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 50, cp=0))
-prp(tree_ZENUP, extra=1)
+tree_ZENUP_Opt <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 50, cp=0))
+prp(tree_ZENUP_Opt, extra=1)
 
 
 
@@ -151,8 +151,8 @@ names(Table_ZENUP_light) <- c("Prime", "Montant emprunt", "Durée emprunt", "Âg
 Table_ZENUP_light <- Table_ZENUP_light[,c(1,2,4)]
 Table_ZENUP_light[,c(1,2,3)] <- sapply(Table_ZENUP_light[,c(1,2,3)], as.numeric)
 Table_ZENUP_light <- as.data.frame(Table_ZENUP_light)
-tree_ZENUP <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 50, cp=0))
-prp(tree_ZENUP, extra=1)
+tree_ZENUP_Opt <- rpart(Prime~., data=Table_ZENUP_light, control=rpart.control(minsplit = 50, cp=0))
+prp(tree_ZENUP_Opt, extra=1, fallen.leaves = T)
 
 
 
@@ -161,15 +161,12 @@ prp(tree_ZENUP, extra=1)
 
 #  Minimum - Light
 
-Table_DA <- New_Table_complete[,-c(1,5,6,7,38)]
-Table_All <- New_Table_complete[,-c(1,5,6,7,38)]
-Table_DA <- Table_DA %>% filter(insurer=="Groupe AXA")
-Table_DA <- Table_DA %>% filter(coverage == 'Minimum')
-
+Table_DA <- Table_Benchmark %>% filter(insurer=="Groupe AXA" & coverage == 'Minimum')
+Table_Min <- Table_Benchmark %>% filter(coverage == 'Minimum')
 
 node1 <- which(Table_DA$firstloan_amount<=277e+3 & Table_DA$primary_applicant_age<=30)
-node2 <- which(Table_DA$firstloan_amount<177e+3 & Table_DA$primary_applicant_age>30 & Table_DA$primary_applicant_age<=40)
-node3 <- which(Table_DA$firstloan_amount>177e+3 & Table_DA$primary_applicant_age>30 & Table_DA$primary_applicant_age<=40)
+node2 <- which(Table_DA$firstloan_amount<=177e+3 & Table_DA$primary_applicant_age>30 & Table_DA$primary_applicant_age<=40)
+node3 <- which(Table_DA$firstloan_amount>177e+3 & Table_DA$firstloan_amount<=277e+3 & Table_DA$primary_applicant_age>30 & Table_DA$primary_applicant_age<=40)
 node4 <- which(Table_DA$firstloan_amount<277e+3 & Table_DA$primary_applicant_age>40 & Table_DA$primary_applicant_age<=48)
 node5 <- which(Table_DA$firstloan_amount>277e+3 & Table_DA$primary_applicant_age<=48)
 node6 <- which(Table_DA$primary_applicant_age>48)
@@ -183,28 +180,85 @@ mean(Table_DA$price[node6])
 
 
 
+node1 <- which(Table_Min$firstloan_amount<=277e+3 & Table_Min$primary_applicant_age<=30)
+node2 <- which(Table_Min$firstloan_amount<=177e+3 & Table_Min$primary_applicant_age>30 & Table_Min$primary_applicant_age<=40)
+node3 <- which(Table_Min$firstloan_amount>177e+3 & Table_Min$firstloan_amount<=277e+3 & Table_Min$primary_applicant_age>30 & Table_Min$primary_applicant_age<=40)
+node4 <- which(Table_Min$firstloan_amount<277e+3 & Table_Min$primary_applicant_age>40 & Table_Min$primary_applicant_age<=48)
+node5 <- which(Table_Min$firstloan_amount>277e+3 & Table_Min$primary_applicant_age<=48)
+node6 <- which(Table_Min$primary_applicant_age>48)
 
-node1 <- which(Table_All$firstloan_amount<=277e+3 & Table_All$primary_applicant_age<=30)
-node2 <- which(Table_All$firstloan_amount<177e+3 & Table_All$primary_applicant_age>30 & Table_All$primary_applicant_age<=40)
-node3 <- which(Table_All$firstloan_amount>177e+3 & Table_All$primary_applicant_age>30 & Table_All$primary_applicant_age<=40)
-node4 <- which(Table_All$firstloan_amount<277e+3 & Table_All$primary_applicant_age>40 & Table_All$primary_applicant_age<=48)
-node5 <- which(Table_All$firstloan_amount>277e+3 & Table_All$primary_applicant_age<=48)
-node6 <- which(Table_All$primary_applicant_age>48)
 
-boxplot(Table_All$price[node1], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
-text(y=fivenum(Table_All$price[node1]), labels =fivenum(Table_All$price[node1]), x=1.28)
-boxplot(Table_All$price[node2], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
-text(y=fivenum(Table_All$price[node2]), labels =fivenum(Table_All$price[node2]), x=1.28)
-boxplot(Table_All$price[node3], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
-text(y=fivenum(Table_All$price[node3]), labels =fivenum(Table_All$price[node3]), x=1.28)
-boxplot(Table_All$price[node4], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
-text(y=fivenum(Table_All$price[node4]), labels =fivenum(Table_All$price[node4]), x=1.28)
-boxplot(Table_All$price[node5], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
-text(y=fivenum(Table_All$price[node5]), labels =fivenum(Table_All$price[node5]), x=1.28)
-boxplot(Table_All$price[node6], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
-text(y=fivenum(Table_All$price[node6]), labels =fivenum(Table_All$price[node6]), x=1.28)
+mean(Table_Min$price[node1])
+mean(Table_Min$price[node2])
+mean(Table_Min$price[node3])
+mean(Table_Min$price[node4])
+mean(Table_Min$price[node5])
+mean(Table_Min$price[node6])
+
+
+boxplot(Table_Min$price[node1], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Min$price[node1]), labels =fivenum(Table_Min$price[node1]), x=1.28)
+boxplot(Table_Min$price[node2], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Min$price[node2]), labels =fivenum(Table_Min$price[node2]), x=1.28)
+boxplot(Table_Min$price[node3], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Min$price[node3]), labels =fivenum(Table_Min$price[node3]), x=1.28)
+boxplot(Table_Min$price[node4], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Min$price[node4]), labels =fivenum(Table_Min$price[node4]), x=1.28)
+boxplot(Table_Min$price[node5], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Min$price[node5]), labels =fivenum(Table_Min$price[node5]), x=1.28)
+boxplot(Table_Min$price[node6], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Min$price[node6]), labels =fivenum(Table_Min$price[node6]), x=1.28)
 
 
 
 #  Optimum - Light
 
+Table_DA <- Table_Benchmark %>% filter(insurer=="Groupe AXA" & coverage == 'Formule Optimum')
+Table_Opt <- Table_Benchmark %>% filter(coverage == 'Formule Optimum')
+
+
+node1 <- which(Table_DA$firstloan_amount<=265e+3 & Table_DA$primary_applicant_age<=28)
+node2 <- which(Table_DA$firstloan_amount<=179e+3 & Table_DA$primary_applicant_age>28 & Table_DA$primary_applicant_age<=40)
+node3 <- which(Table_DA$firstloan_amount>179e+3 & Table_DA$firstloan_amount<=265e+3 & Table_DA$primary_applicant_age>28 & Table_DA$primary_applicant_age<=40)
+node4 <- which(Table_DA$firstloan_amount<=265e+3 & Table_DA$primary_applicant_age>40 & Table_DA$primary_applicant_age<=50)
+node5 <- which(Table_DA$firstloan_amount>265e+3 & Table_DA$primary_applicant_age<=50)
+node6 <- which(Table_DA$primary_applicant_age>50)
+
+mean(Table_DA$price[node1])
+mean(Table_DA$price[node2])
+mean(Table_DA$price[node3])
+mean(Table_DA$price[node4])
+mean(Table_DA$price[node5])
+mean(Table_DA$price[node6])
+
+
+
+
+node1 <- which(Table_Opt$firstloan_amount<=265e+3 & Table_Opt$primary_applicant_age<=28)
+node2 <- which(Table_Opt$firstloan_amount<179e+3 & Table_Opt$primary_applicant_age>28 & Table_Opt$primary_applicant_age<=40)
+node3 <- which(Table_Opt$firstloan_amount>179e+3 & Table_Opt$firstloan_amount<=265e+3 & Table_Opt$primary_applicant_age>28 & Table_Opt$primary_applicant_age<=40)
+node4 <- which(Table_Opt$firstloan_amount<265e+3 & Table_Opt$primary_applicant_age>40 & Table_Opt$primary_applicant_age<=50)
+node5 <- which(Table_Opt$firstloan_amount>265e+3 & Table_Opt$primary_applicant_age<=50)
+node6 <- which(Table_Opt$primary_applicant_age>50)
+
+
+mean(Table_Opt$price[node1])
+mean(Table_Opt$price[node2])
+mean(Table_Opt$price[node3])
+mean(Table_Opt$price[node4])
+mean(Table_Opt$price[node5])
+mean(Table_Opt$price[node6])
+
+
+boxplot(Table_Opt$price[node1], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Opt$price[node1]), labels =fivenum(Table_Opt$price[node1]), x=1.28)
+boxplot(Table_Opt$price[node2], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Opt$price[node2]), labels =fivenum(Table_Opt$price[node2]), x=1.28)
+boxplot(Table_Opt$price[node3], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Opt$price[node3]), labels =fivenum(Table_Opt$price[node3]), x=1.28)
+boxplot(Table_Opt$price[node4], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Opt$price[node4]), labels =fivenum(Table_Opt$price[node4]), x=1.28)
+boxplot(Table_Opt$price[node5], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Opt$price[node5]), labels =fivenum(Table_Opt$price[node5]), x=1.28)
+boxplot(Table_Opt$price[node6], horizontal = F, col="blue", outline = F, staplewex = 1, axes = F)
+text(y=fivenum(Table_Opt$price[node6]), labels =fivenum(Table_Opt$price[node6]), x=1.28)
